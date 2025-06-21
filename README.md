@@ -184,6 +184,25 @@ exec $(which zsh)
 # Insert 2 for default setting
 ```
 
+### Homebrew for Linux
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+eval "$(/opt/homebrew/bin/brew shellenv)" && brew --version
+```
+
+Add below snippet for `brew` command to `PATH` variable:
+
+```bash
+echo '# ---'                                                  >> "${HOME}/.zprofile"
+echo '# Homebrew set to PATH variable'                        >> "${HOME}/.zprofile"
+echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> "${HOME}/.zprofile"
+echo >> "${HOME}/.zprofile"
+
+cat "${HOME}/.zprofile" | grep -B1 -A2 '# Homebrew'
+```
+
 ### Follow up this on-boarding as Linux
 
 Linux on-boarding with [`.mac-setup`](https://github.com/SPONGE-JL/.mac-setup#readme) guide

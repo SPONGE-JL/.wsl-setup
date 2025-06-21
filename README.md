@@ -6,3 +6,164 @@
 # .wsl-setup
 
 From factory reset to Windows Subsustem for Linux (call it 'WSL' or 'wsl') version 2
+
+## Prerequisite
+
+- [Windows 11](https://www.microsoft.com/ko-kr/windows/end-of-support?r=1)
+  with [latest update](https://support.microsoft.com/en-us/windows/install-windows-updates-3c5ae7fc-9fb6-9af1-1984-b5e0412c556a)
+
+- [Enable Hypervisor](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/get-started/install-hyper-v?tabs=gui&pivots=windows)
+  for WSL and container:
+
+  - **Hyper-V**
+  - **Windows Subsystem for Linux** (Linux용 Windows 하위 시스템)
+  - (option) **Virtual Machine Platform**
+  - (option) **Windows Hypervisor Platform** (Windows 하이퍼바이저 플랫폼)
+
+- Microsoft Store:
+
+  - [Terminal](https://apps.microsoft.com/detail/9n0dx20hk701)
+  - [BandiZip](https://apps.microsoft.com/detail/9P2W3W81SPPB)
+  - [Draw.io Diagrams](https://apps.microsoft.com/detail/9MVVSZK43QQW)
+
+---
+
+## Devlopment Capability on Linux
+
+### [WSL](https://learn.microsoft.com/ko-kr/windows/wsl/install)
+
+Update WSL to latest version:
+
+```powershell
+wsl --update
+```
+
+Check the available distributions:
+
+```powershell
+wsl --list --online
+```
+
+Install Ubuntu Latest LTS:
+
+```powershell
+wsl --install -d Ubuntu-22.04
+```
+
+Enter UNIX username and new password, then proceed:
+
+```bash
+whoami
+```
+
+In another terminal, check the installed distributions:
+
+```powershell
+wsl --list --all --verbose
+```
+
+Tuning WSL resources at [`<HOST_HOME>/.wslconfig`](https://learn.microsoft.com/en-us/windows/wsl/wsl-config#wslconfig):
+
+```powershell
+New-Item -Path "${HOME}\.wslconfig" -ItemType File -ErrorAction SilentlyContinue
+Start-Process "${HOME}\.wslconfig"
+```
+
+Add below configuration after opening in editor:
+
+```toml
+[wsl2]
+processors=4
+memory=8GB
+```
+
+Check:
+
+```powershell
+Get-Content "${HOME}\.wslconfig"
+```
+
+Shutdown to reboot:
+
+```powershell
+wsl --terminate Ubuntu-22.04
+
+# Check after 3 seconds
+wsl --list --all --verbose
+```
+
+Boot up again:
+
+```powershell
+wsl --distribution Ubuntu-22.04
+
+# Check after logout(exit command)
+wsl --list --all --verbose
+```
+
+### [Rancher Desktop](https://rancherdesktop.io/)
+
+- [Download binary to install](https://rancherdesktop.io/)
+
+- Choose `dockerd (moby)` runtime with automatically `PATH` valiable setting
+
+- Integrate with WSL distros:
+
+  - Open the Preference panel: `Ctrl + ,(comman)`
+  - `WSL` -> `Integrations` -> Choose the WSL distros 
+  - Click the `apply`
+
+- Check in WSL
+
+  ```bash
+  docker version
+  docker compose version
+  kubectl version
+  helm version
+  ```
+
+- (option) Check in PowerShell
+
+  ```powershell
+  docker version
+  docker compose version
+  kubectl version
+  helm version
+  ```
+
+### [Visual Studio Code](https://code.visualstudio.com/):
+
+- [Download installer](https://code.visualstudio.com/)
+
+- [Diable GitHub Copilot Extentions](https://stackoverflow.com/a/75377469)
+
+- [Enable DevContainer for VS Code](https://docs.rancherdesktop.io/how-to-guides/vs-code-remote-containers/)
+  (a.k.a [Remote Container](https://code.visualstudio.com/docs/devcontainers/containers))
+
+### [Jetbrain Toolbox](https://www.jetbrains.com/lp/toolbox/) (option)
+
+- [Download installer](https://www.jetbrains.com/toolbox-app/)
+
+- Install the IntelliJ IDEA
+
+- Setup [the CLI `idea`](https://www.jetbrains.com/help/idea/working-with-the-ide-features-from-command-line.html#toolbox)
+
+- [Enable DevContainer for IntelliJ IDEA](https://www.jetbrains.com/help/idea/start-dev-container-for-a-remote-project.html)
+
+---
+
+## Setup Ubuntu LTS on WSL2
+
+### 1. Latest upgrade `apt`(advanced package toolkit)
+
+```bash
+sudo apt update
+sudo apt upgrade
+```
+
+> [What is diffrent between `apt` and `apt-get`](https://aws.amazon.com/ko/compare/the-difference-between-apt-and-apt-get/)
+
+### 2. Follow up this on-boarding as Linux
+
+Linux on-boarding with [`.mac-setup`](https://github.com/SPONGE-JL/.mac-setup#readme) guide
+(maybe some packages would be not requiqred)

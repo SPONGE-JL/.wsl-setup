@@ -154,7 +154,7 @@ wsl --list --all --verbose
 
 ## Setup Ubuntu LTS on WSL2
 
-### 1. Latest upgrade `apt`(advanced package toolkit)
+### Latest upgrade `apt`(advanced package toolkit)
 
 ```bash
 sudo apt update
@@ -163,7 +163,28 @@ sudo apt upgrade
 
 > [What is diffrent between `apt` and `apt-get`](https://aws.amazon.com/ko/compare/the-difference-between-apt-and-apt-get/)
 
-### 2. Follow up this on-boarding as Linux
+### ZSH
+
+Install via apt:
+
+```bash
+sudo apt install zsh
+```
+
+Switch to ZSH:
+
+```bash
+chsh -s $(which zsh)
+```
+
+Refresh:
+
+```bash
+exec $(which zsh)
+# Insert 2 for default setting
+```
+
+### Follow up this on-boarding as Linux
 
 Linux on-boarding with [`.mac-setup`](https://github.com/SPONGE-JL/.mac-setup#readme) guide
 (maybe some packages would be not requiqred)

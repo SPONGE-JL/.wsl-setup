@@ -186,6 +186,12 @@ exec $(which zsh)
 
 ### Homebrew for Linux
 
+[Required packages](https://docs.brew.sh/Homebrew-on-Linux#requirements):
+
+```bash
+apt install build-essential procps file
+```
+
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
@@ -202,8 +208,6 @@ echo >> "${HOME}/.zprofile"
 
 cat "${HOME}/.zprofile" | grep -B1 -A2 '# Homebrew'
 ```
-
-### Follow up this on-boarding as Linux
 
 Linux on-boarding with [`.mac-setup`](https://github.com/SPONGE-JL/.mac-setup#readme) guide
 (maybe some packages would be not requiqred)

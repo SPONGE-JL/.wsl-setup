@@ -23,8 +23,24 @@ From factory reset to Windows Subsustem for Linux (call it 'WSL' or 'wsl') versi
 - Microsoft Store:
 
   - [Terminal](https://apps.microsoft.com/detail/9n0dx20hk701)
-  - [BandiZip](https://apps.microsoft.com/detail/9P2W3W81SPPB)
-  - [Draw.io Diagrams](https://apps.microsoft.com/detail/9MVVSZK43QQW)
+  - [BandiZip](https://apps.microsoft.com/detail/9P2W3W81SPPB): Easy archiver
+  - [Draw.io Diagrams](https://apps.microsoft.com/detail/9MVVSZK43QQW): Easy drawing diagrams
+  - [EarTrumpet](https://apps.microsoft.com/detail/9NBLGGH516XP): Easy volume mixer
+  - [Microsoft PC Manager](https://apps.microsoft.com/detail/9PM860492SZD): Easy PC optimization
+
+- Other recommand:
+
+  - [Flow Launcher](https://www.flowlauncher.com/):
+    `PS > winget install "Flow Launcher"`
+    (shortcut: `alt + space`) // alternative [Raycast for Windows](https://www.raycast.com/windows)
+  - [TreeSize](https://www.jam-software.com/treesize_free):
+    `PS > winget install -e --id JAMSoftware.TreeSize.Free`
+  - [Everything](https://www.voidtools.com/support/everything/):
+    `PS > winget install -e --id voidtools.Everything`
+  - [CCleaner Portable](https://www.ccleaner.com/ccleaner/builds)
+
+- [Update all packages](https://learn.microsoft.com/en-us/windows/package-manager/winget/upgrade#upgrade---all):
+    `PS > winget upgrade --all`
 
 ---
 

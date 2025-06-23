@@ -32,7 +32,8 @@ From factory reset to Windows Subsustem for Linux (call it 'WSL' or 'wsl') versi
 
   - [Flow Launcher](https://www.flowlauncher.com/):
     `PS > winget install "Flow Launcher"`
-    (shortcut: `alt + space`) // alternative [Raycast for Windows](https://www.raycast.com/windows)
+    (shortcut: `alt + space`)
+  - ~~[Raycast](https://www.raycast.com/windows)~~
   - [TreeSize](https://www.jam-software.com/treesize_free):
     `PS > winget install -e --id JAMSoftware.TreeSize.Free`
   - [Everything](https://www.voidtools.com/support/everything/):
@@ -62,10 +63,10 @@ Check the available distributions:
 PS > wsl --list --online
 ```
 
-Install Ubuntu Latest LTS:
+Install [Ubuntu Latest LTS](https://endoflife.date/ubuntu):
 
 ```powershell
-PS > wsl --install -d Ubuntu-22.04
+PS > wsl --install -d Ubuntu-24.04
 ```
 
 Enter UNIX username and new password, then proceed:

@@ -179,6 +179,13 @@ sudo apt upgrade
 
 > [What is diffrent between `apt` and `apt-get`](https://aws.amazon.com/ko/compare/the-difference-between-apt-and-apt-get/)
 
+### Set default locale
+
+```bash
+sudo apt install locales
+sudo locale-gen en_US.UTF-8
+```
+
 ### ZSH
 
 Install via apt:

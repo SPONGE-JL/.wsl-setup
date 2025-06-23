@@ -213,7 +213,7 @@ exec $(which zsh)
 [Required packages](https://docs.brew.sh/Homebrew-on-Linux#requirements):
 
 ```bash
-apt install build-essential procps file
+sudo apt install build-essential procps file
 ```
 
 Install Homebrew:

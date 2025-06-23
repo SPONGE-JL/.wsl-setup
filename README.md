@@ -51,19 +51,19 @@ From factory reset to Windows Subsustem for Linux (call it 'WSL' or 'wsl') versi
 Update WSL to latest version:
 
 ```powershell
-wsl --update
+PS > wsl --update
 ```
 
 Check the available distributions:
 
 ```powershell
-wsl --list --online
+PS > wsl --list --online
 ```
 
 Install Ubuntu Latest LTS:
 
 ```powershell
-wsl --install -d Ubuntu-22.04
+PS > wsl --install -d Ubuntu-22.04
 ```
 
 Enter UNIX username and new password, then proceed:
@@ -75,14 +75,14 @@ whoami
 In another terminal, check the installed distributions:
 
 ```powershell
-wsl --list --all --verbose
+PS > wsl --list --all --verbose
 ```
 
 Tuning WSL resources at [`<HOST_HOME>/.wslconfig`](https://learn.microsoft.com/en-us/windows/wsl/wsl-config#wslconfig):
 
 ```powershell
-New-Item -Path "${HOME}\.wslconfig" -ItemType File -ErrorAction SilentlyContinue
-Start-Process "${HOME}\.wslconfig"
+PS > New-Item -Path "${HOME}\.wslconfig" -ItemType File -ErrorAction SilentlyContinue
+PS > Start-Process "${HOME}\.wslconfig"
 ```
 
 Add below configuration after opening in editor:
@@ -96,25 +96,23 @@ memory=8GB
 Check:
 
 ```powershell
-Get-Content "${HOME}\.wslconfig"
+PS > Get-Content "${HOME}\.wslconfig"
 ```
 
-Shutdown to reboot:
+Reboot:
 
 ```powershell
-wsl --terminate Ubuntu-22.04
+# Shutdown
+PS > wsl --terminate Ubuntu-22.04
 
 # Check after 3 seconds
-wsl --list --all --verbose
-```
+PS > wsl --list --all --verbose
 
-Boot up again:
-
-```powershell
-wsl --distribution Ubuntu-22.04
+# Boot up
+PS > wsl --distribution Ubuntu-22.04
 
 # Check after logout(exit command)
-wsl --list --all --verbose
+PS > wsl --list --all --verbose
 ```
 
 ### [Rancher Desktop](https://rancherdesktop.io/)
@@ -141,10 +139,10 @@ wsl --list --all --verbose
 - (option) Check in PowerShell
 
   ```powershell
-  docker version
-  docker compose version
-  kubectl version
-  helm version
+  PS > docker version
+  PS > docker compose version
+  PS > kubectl version
+  PS > helm version
   ```
 
 ### [Visual Studio Code](https://code.visualstudio.com/):

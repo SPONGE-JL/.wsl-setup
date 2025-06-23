@@ -198,7 +198,7 @@ sudo apt install zsh
 Switch to ZSH:
 
 ```bash
-chsh -s $(which zsh)
+sudo chsh -s $(which zsh)
 ```
 
 Refresh:

@@ -38,6 +38,8 @@ From factory reset to Windows Subsustem for Linux (call it 'WSL' or 'wsl') versi
   - [Everything](https://www.voidtools.com/support/everything/):
     `PS > winget install -e --id voidtools.Everything`
   - [CCleaner Portable](https://www.ccleaner.com/ccleaner/builds)
+  - Install [Nerd Fonts](https://www.nerdfonts.com/#home)
+    to [Windows Fonts](https://support.microsoft.com/en-us/windows/manage-fonts-in-windows-f12d0657-2fc8-7613-c76f-88d043b334b8)
 
 - [Update all packages](https://learn.microsoft.com/en-us/windows/package-manager/winget/upgrade#upgrade---all):
     `PS > winget upgrade --all`

@@ -44,7 +44,7 @@ From factory reset to Windows Subsustem for Linux (call it 'WSL' or 'wsl') versi
 
 1. Open PowerShell as an Administrator: `Win + X, A`
 
-2. Copy the [`winget.ps1` script](.winget.ps1)
+2. Copy the [`winget.ps1` script](winget.ps1)
 
 3. Paste with execution block
 
@@ -173,7 +173,7 @@ From factory reset to Windows Subsustem for Linux (call it 'WSL' or 'wsl') versi
 
 1. Open PowerShell as an Administrator: `Win + X, A`
 
-2. Copy the [`prerequisite.ps1` script](./prerequisite.ps1)
+2. Copy the [`prerequisite.ps1` script](prerequisite.ps1)
 
 3. Paste with execution block
 

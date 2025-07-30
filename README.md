@@ -1,122 +1,282 @@
+
 <!-- https://badges.pages.dev/ -->
 <!-- https://ileriayo.github.io/markdown-badges/#markdown-badges -->
 ![Windows 11](https://img.shields.io/badge/Windows%2011-%230079d5.svg?logo=Windows%2011&style=flat&logoColor=white)
 ![Linux Badge](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=000&style=flat)
 
-# .wsl-setup
+# Windows 11 on-boarding to WSL2
 
 From factory reset to Windows Subsustem for Linux (call it 'WSL' or 'wsl') version 2
 
-## Prerequisite
-
-- [Windows 11](https://www.microsoft.com/ko-kr/windows/end-of-support?r=1)
-  with [latest update](https://support.microsoft.com/en-us/windows/install-windows-updates-3c5ae7fc-9fb6-9af1-1984-b5e0412c556a)
-
-- [Enable Hypervisor](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/get-started/install-hyper-v?tabs=gui&pivots=windows)
-  for WSL and container:
-
-  - **Hyper-V**
-  - **Windows Subsystem for Linux** (Linux용 Windows 하위 시스템)
-  - (option) **Virtual Machine Platform**
-  - (option) **Windows Hypervisor Platform** (Windows 하이퍼바이저 플랫폼)
-
-- Microsoft Store:
-
-  - [Terminal](https://apps.microsoft.com/detail/9n0dx20hk701)
-  - [BandiZip](https://apps.microsoft.com/detail/9P2W3W81SPPB): Easy archiver
-  - [Draw.io Diagrams](https://apps.microsoft.com/detail/9MVVSZK43QQW): Easy drawing diagrams
-  - [EarTrumpet](https://apps.microsoft.com/detail/9NBLGGH516XP): Easy volume mixer
-  - [Microsoft PC Manager](https://apps.microsoft.com/detail/9PM860492SZD): Easy PC optimization
-
-- Other recommand:
-
-  - [Flow Launcher](https://www.flowlauncher.com/):
-    `PS > winget install "Flow Launcher"`
-    (shortcut: `alt + space`)
-  - ~~[Raycast](https://www.raycast.com/windows)~~
-  - [TreeSize](https://www.jam-software.com/treesize_free):
-    `PS > winget install -e --id JAMSoftware.TreeSize.Free`
-  - [Everything](https://www.voidtools.com/support/everything/):
-    `PS > winget install -e --id voidtools.Everything`
-  - [CCleaner Portable](https://www.ccleaner.com/ccleaner/builds)
-  - Install [Nerd Fonts](https://www.nerdfonts.com/#home)
-    to [Windows Fonts](https://support.microsoft.com/en-us/windows/manage-fonts-in-windows-f12d0657-2fc8-7613-c76f-88d043b334b8)
-
-- [Update all packages](https://learn.microsoft.com/en-us/windows/package-manager/winget/upgrade#upgrade---all):
-    `PS > winget upgrade --all`
+- [Windows 11 on-boarding to WSL2](#windows-11-on-boarding-to-wsl2)
+  - [Prerequisite](#prerequisite)
+    - [Baseline requirements](#baseline-requirements)
+    - [Required IDEs](#required-ides)
+      - [Jetbrain Toolbox](#jetbrain-toolbox)
+      - [Visual Studio Code](#jetbrain-toolbox)
+      - [Kiro (option)](#kiro-option)
+  - [Add Container Capability with WSL2](#add-container-capability-with-wsl2)
+    - [Enable windows features for WSL and container](#enable-windows-features-for-wsl-and-container)
+    - [Activate WSL2](#activate-wsl2)
+    - [Rancher Desktop](#rancher-desktop)
+  - [Setup Ubuntu LTS (WSL2)](#setup-ubuntu-lts-wsl2)
+    - [Latest upgrade `apt`(advanced package toolkit)](#latest-upgrade-aptadvanced-package-toolkit)
+    - [Set default locale](#set-default-locale)
+    - [Switch from bash to zsh](#switch-from-bash-to-zsh)
+    - [Homebrew for Linux](#homebrew-for-linux)
+  - [Next step](#next-step)
 
 ---
 
-## Devlopment Capability on Linux
+## Prerequisite
 
-### [WSL](https://learn.microsoft.com/ko-kr/windows/wsl/install)
+### Baseline requirements
 
-Update WSL to latest version:
+> ⚠️ STRONGLY RECOMMEND ⚠️
+>
+> DO NOT SKIP WINDOWS UPDATE!!
 
-```powershell
-PS > wsl --update
-```
+- Upgrade to [Windows 11](https://www.microsoft.com/ko-kr/windows/end-of-support?r=1)
 
-Check the available distributions:
+- Install all [latest updates](https://support.microsoft.com/en-us/windows/install-windows-updates-3c5ae7fc-9fb6-9af1-1984-b5e0412c556a)
 
-```powershell
-PS > wsl --list --online
-```
+### Recommended packages
 
-Install [Ubuntu Latest LTS](https://endoflife.date/ubuntu):
+1. Open PowerShell as an Administrator: `Win + X, A`
 
-```powershell
-PS > wsl --install -d Ubuntu-24.04
-```
+2. Copy the [`winget.ps1` script](.winget.ps1)
 
-Enter UNIX username and new password, then proceed:
+3. Paste with execution block
 
-```bash
-whoami
-```
+    ```powershell
+    # In PowerShell
+    . {
+      # Paste here
+    }
+    ```
 
-In another terminal, check the installed distributions:
+<details>
+<summary>click to contents</summary><br/>
 
-```powershell
-PS > wsl --list --all --verbose
-```
+- [Terminal](https://apps.microsoft.com/detail/9n0dx20hk701):
+  [Easy to connect multiple kernels](https://github.com/microsoft/terminal#readme)
+  (already installed in Windows 11)
 
-Tuning WSL resources at [`<HOST_HOME>/.wslconfig`](https://learn.microsoft.com/en-us/windows/wsl/wsl-config#wslconfig):
+  ```powershell
+  # In PowerShell
+  winget install -e --id Microsoft.WindowsTerminal
+  ```
 
-```powershell
-PS > New-Item -Path "${HOME}\.wslconfig" -ItemType File -ErrorAction SilentlyContinue
-PS > Start-Process "${HOME}\.wslconfig"
-```
+- [BandiZip](https://apps.microsoft.com/detail/9P2W3W81SPPB):
+  Easy archiver
 
-Add below configuration after opening in editor:
+  ```powershell
+  # In PowerShell
+  winget install -e --id Bandisoft.Bandizip
+  ```
 
-```toml
-[wsl2]
-processors=4
-memory=8GB
-```
+- [Draw.io Diagrams](https://apps.microsoft.com/detail/9MVVSZK43QQW):
+  [Easy drawing diagrams](https://www.drawio.com/blog/diagrams-offline)
 
-Check:
+  ```powershell
+  # In PowerShell
+  winget install -e --id JGraph.Draw
+  ```
 
-```powershell
-PS > Get-Content "${HOME}\.wslconfig"
-```
+- [Sublime Text Editor](https://www.sublimetext.com/):
+  The sophisticated text editor for code, markup and prose
 
-Reboot:
+  ```powershell
+  # In PowerShell
+  winget install -e --id SublimeHQ.SublimeText.4
+  ```
 
-```powershell
-# Shutdown
-PS > wsl --terminate Ubuntu-22.04
+</details>
 
-# Check after 3 seconds
-PS > wsl --list --all --verbose
+- [Microsoft PC Manager](https://apps.microsoft.com/detail/9PM860492SZD):
+  [Easy PC optimization](https://pcmanager.microsoft.com/en-us)
 
-# Boot up
-PS > wsl --distribution Ubuntu-22.04
+  ```powershell
+  # In PowerShell
+  winget install -e --id Microsoft.PCManager
+  ```
 
-# Check after logout(exit command)
-PS > wsl --list --all --verbose
-```
+- [PowerToys](https://apps.microsoft.com/detail/XP89DCGQ3K6VLD):
+  [Easy for Windows Experience](https://github.com/microsoft/PowerToys#readme)
+  (shortcut: `win + alt + space`)
+
+  ```powershell
+  # In PowerShell
+  winget install -e --id Microsoft.PowerToys
+  ```
+
+  > 💁 Here are some useful features for your perfomance
+  >
+  > - [Fancy zones](https://learn.microsoft.com/en-us/windows/powertoys/fancyzones):
+  >   `shift + drag` or `win + arrow` a window manager utility for arranging and snapping windows
+  >
+  > - [Zoom it](https://learn.microsoft.com/en-us/windows/powertoys/zoomit):
+  >   (enable in setting) a screen zoom, annotation, and recording tool for technical presentations and demos
+  >
+  > - [Find my mouse](https://learn.microsoft.com/en-us/windows/powertoys/mouse-utilities#find-my-mouse):
+  >   `ctrl ctrl` (twice) activate a spotlight that focuses on the cursor's position
+  >
+  > - [Text extractor](https://learn.microsoft.com/en-us/windows/powertoys/text-extractor):
+  >   `win + shift + t` enables you to copy text from anywhere on your screen
+
+  Other alternatives: [Flow Launcher](https://www.flowlauncher.com/), [Raycast](https://www.raycast.com/windows)
+
+- Install [Nerd Fonts](https://www.nerdfonts.com/#home)
+  to [Windows Fonts](https://support.microsoft.com/en-us/windows/manage-fonts-in-windows-f12d0657-2fc8-7613-c76f-88d043b334b8)
+
+  > 💁 You can convert [the font family in your terminal profile in configuration](https://learn.microsoft.com/en-us/windows/terminal/customize-settings/profile-appearance#font):
+  > `cntl + ,`
+
+### Required IDEs
+
+#### [Jetbrain Toolbox](https://www.jetbrains.com/lp/toolbox/)
+
+- [Download installer](https://www.jetbrains.com/toolbox-app/)
+
+  - Install the IntelliJ IDEA
+
+  - Setup [the CLI `idea`](https://www.jetbrains.com/help/idea/working-with-the-ide-features-from-command-line.html#toolbox)
+
+  - [Enable DevContainer for IntelliJ IDEA](https://www.jetbrains.com/help/idea/start-dev-container-for-a-remote-project.html)
+
+- Or, [Download System Installer for IntelliJ IDEA Ultimate](https://www.jetbrains.com/ko-kr/idea/download/?section=windows) only
+
+#### [Visual Studio Code](https://code.visualstudio.com/)
+
+- [Download System Installer](https://code.visualstudio.com/Download)
+
+- [Diable GitHub Copilot Extentions](https://stackoverflow.com/a/75377469)
+
+- [Enable DevContainer for VS Code](https://docs.rancherdesktop.io/how-to-guides/vs-code-remote-containers/)
+  (a.k.a [Remote Container](https://code.visualstudio.com/docs/devcontainers/containers))
+
+#### [Kiro](https://kiro.dev) (option)
+
+- [Download installer](https://kiro.dev/)
+
+  - [Official Documents](https://kiro.dev/docs/getting-started/installation/)
+
+  - [Builder Center Articles](https://builder.aws.com/learn/topics/kiro?tab=article)
+
+  - [Community Documents](https://kiro.help/docs)
+
+---
+
+## Add Container Capability with WSL2
+
+### Enable windows features for WSL and container
+
+1. Open PowerShell as an Administrator: `Win + X, A`
+
+2. Copy the [`prerequisite.ps1` script](./prerequisite.ps1)
+
+3. Paste with execution block
+
+    ```powershell
+    # In PowerShell
+    . {
+      # Paste here
+    }
+    ```
+
+    <details>
+    <summary>Also, you can setup in GUI</summary><br/>
+
+    [Enable Hypervisor](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/get-started/install-hyper-v?tabs=gui&pivots=windows) for WSL and container
+
+    - **Hyper-V**
+    - **Windows Subsystem for Linux** (Linux용 Windows 하위 시스템)
+    - (option) **Virtual Machine Platform**
+    - (option) **Windows Hypervisor Platform** (Windows 하이퍼바이저 플랫폼)
+
+    </details>
+
+### Activate [WSL2](https://learn.microsoft.com/ko-kr/windows/wsl/install)
+
+- [Update WSL kernel to latest version](https://learn.microsoft.com/ko-kr/windows/wsl/basic-commands#update-wsl):
+
+  ```powershell
+  # In PowerShell
+  wsl --update
+  ```
+
+- [Check the available distributions](https://learn.microsoft.com/ko-kr/windows/wsl/basic-commands#list-available-linux-distributions):
+
+  ```powershell
+  # In PowerShell
+  wsl --list --online
+  ```
+
+- Install [Ubuntu Latest LTS](https://endoflife.date/ubuntu):
+
+  ```powershell
+  # In PowerShell
+  wsl --install --distribution Ubuntu-24.04
+  ```
+
+- Enter new UNIX username and new password, then proceed:
+
+  ```bash
+  # In Bash of WSL2
+  whoami
+  ```
+
+- In another terminal, check the installed distributions:
+
+  ```powershell
+  # In PowerShell
+  wsl --list --all --verbose
+  ```
+
+  <details>
+  <summary>(Optional) Tuning WSL resources at <code>{HOST_HOME}/.wslconfig</code></summary><br/>
+
+  - About [`.wslconfig`](https://learn.microsoft.com/en-us/windows/wsl/wsl-config#wslconfig)
+
+    ```powershell
+    # In PowerShell
+    New-Item -Path "${HOME}\.wslconfig" -ItemType File -ErrorAction SilentlyContinue
+    Start-Process "${HOME}\.wslconfig"
+    ```
+
+  - Add below configuration after opening in editor
+
+    ```toml
+    [wsl2]
+    processors=8
+    memory=16GB
+    ```
+
+  - Check:
+
+    ```powershell
+    # In PowerShell
+    Get-Content "${HOME}\.wslconfig"
+    ```
+
+  - Reboot WSL:
+
+    ```powershell
+    # In PowerShell
+    # Shutdown
+    wsl --terminate Ubuntu-24.04
+
+    # Check after 3 seconds
+    wsl --list --all --verbose
+
+    # Boot up
+    wsl --distribution Ubuntu-24.04
+
+    # Check after logout(exit command)
+    wsl --list --all --verbose
+    ```
+
+  </details>
 
 ### [Rancher Desktop](https://rancherdesktop.io/)
 
@@ -127,7 +287,7 @@ PS > wsl --list --all --verbose
 - Integrate with WSL distros:
 
   - Open the Preference panel: `Ctrl + ,(comman)`
-  - `WSL` -> `Integrations` -> Choose the WSL distros 
+  - `WSL` -> `Integrations` -> Choose the WSL distros
   - Click the `apply`
 
 - Check in WSL
@@ -148,34 +308,17 @@ PS > wsl --list --all --verbose
   PS > helm version
   ```
 
-### [Visual Studio Code](https://code.visualstudio.com/):
-
-- [Download installer](https://code.visualstudio.com/)
-
-- [Diable GitHub Copilot Extentions](https://stackoverflow.com/a/75377469)
-
-- [Enable DevContainer for VS Code](https://docs.rancherdesktop.io/how-to-guides/vs-code-remote-containers/)
-  (a.k.a [Remote Container](https://code.visualstudio.com/docs/devcontainers/containers))
-
-### [Jetbrain Toolbox](https://www.jetbrains.com/lp/toolbox/) (option)
-
-- [Download installer](https://www.jetbrains.com/toolbox-app/)
-
-- Install the IntelliJ IDEA
-
-- Setup [the CLI `idea`](https://www.jetbrains.com/help/idea/working-with-the-ide-features-from-command-line.html#toolbox)
-
-- [Enable DevContainer for IntelliJ IDEA](https://www.jetbrains.com/help/idea/start-dev-container-for-a-remote-project.html)
-
 ---
 
-## Setup Ubuntu LTS on WSL2
+## Setup Ubuntu LTS (WSL2)
+
+> 💁 These scripts are shell script for WSL.
 
 ### Latest upgrade `apt`(advanced package toolkit)
 
 ```bash
 sudo apt update
-sudo apt upgrade
+sudo apt upgrade -y
 ```
 
 > [What is diffrent between `apt` and `apt-get`](https://aws.amazon.com/ko/compare/the-difference-between-apt-and-apt-get/)
@@ -183,16 +326,16 @@ sudo apt upgrade
 ### Set default locale
 
 ```bash
-sudo apt install locales
+sudo apt install -y locales
 sudo locale-gen en_US.UTF-8
 ```
 
-### ZSH
+### Switch from bash to zsh
 
 Install via apt:
 
 ```bash
-sudo apt install zsh
+sudo apt install -y zsh
 ```
 
 Switch to ZSH:
@@ -213,7 +356,7 @@ exec $(which zsh)
 [Required packages](https://docs.brew.sh/Homebrew-on-Linux#requirements):
 
 ```bash
-sudo apt install build-essential procps file
+sudo apt install -y build-essential procps file
 ```
 
 Install Homebrew:
